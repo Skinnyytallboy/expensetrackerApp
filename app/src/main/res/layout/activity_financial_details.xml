@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/etCashAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cash Amount"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/etBankBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Bank Account Balance"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/etSavingsAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Savings Amount"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:id="@+id/btnSaveFinancialDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Financial Details" />
+</LinearLayout>
