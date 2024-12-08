@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SignupActivity extends AppCompatActivity {
 
     // TODO: fix "something went wrong" error
+    private TextView tvCreateAcc;
     private EditText etEmail, etPassword, etUsername, etFirstName, etLastName, etAge;
     private Button btnSignup;
     private ProgressBar progressBar;
@@ -37,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        tvCreateAcc = findViewById(R.id.tvCreateAcc);
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etUsername = findViewById(R.id.etUsername);
@@ -91,6 +94,7 @@ public class SignupActivity extends AppCompatActivity {
             etLastName.setVisibility(View.GONE);
             etAge.setVisibility(View.GONE);
             btnSignup.setVisibility(View.GONE);
+            tvCreateAcc.setVisibility(View.GONE);
             checkIfEmailExists(email, () -> checkIfUsernameExists(username, () -> createUser(email, password, username, firstName, lastName, age)));
         });
     }
@@ -123,6 +127,7 @@ public class SignupActivity extends AppCompatActivity {
                         etLastName.setVisibility(View.VISIBLE);
                         etAge.setVisibility(View.VISIBLE);
                         btnSignup.setVisibility(View.VISIBLE);
+                        tvCreateAcc.setVisibility(View.VISIBLE);
                         showSnackbar("Email already in use");
                     } else {
                         onSuccess.run();
@@ -144,6 +149,7 @@ public class SignupActivity extends AppCompatActivity {
                         etLastName.setVisibility(View.VISIBLE);
                         etAge.setVisibility(View.VISIBLE);
                         btnSignup.setVisibility(View.VISIBLE);
+                        tvCreateAcc.setVisibility(View.VISIBLE);
                         showSnackbar("Username already in use");
                     } else {
                         onSuccess.run();
@@ -163,6 +169,7 @@ public class SignupActivity extends AppCompatActivity {
                     etLastName.setVisibility(View.VISIBLE);
                     etAge.setVisibility(View.VISIBLE);
                     btnSignup.setVisibility(View.VISIBLE);
+                    tvCreateAcc.setVisibility(View.VISIBLE);
                     if (task.isSuccessful()) {
                         String userId = mAuth.getCurrentUser().getUid();
 
@@ -198,6 +205,7 @@ public class SignupActivity extends AppCompatActivity {
         etLastName.setVisibility(View.VISIBLE);
         etAge.setVisibility(View.VISIBLE);
         btnSignup.setVisibility(View.VISIBLE);
+        tvCreateAcc.setVisibility(View.VISIBLE);
     }
 
     private void showSnackbar(String message) {
