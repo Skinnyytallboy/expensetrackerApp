@@ -2,25 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/white"
+    android:padding="50dp">
 
     <TextView
+        android:layout_marginTop="150dp"
+        android:id="@+id/chooseCurr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Your Preferred Currency"
-        android:textSize="18sp"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Select Currency"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="28sp" />
 
     <ListView
         android:id="@+id/listViewCurrencies"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"/>
 
     <Button
         android:id="@+id/btnSaveCurrency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Currency" />
+        android:text="Save Currency"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#212121"
+        android:fontFamily="@font/raleway_semibold"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="8dp" />
+
+    <TextView
+        android:id="@+id/langSupportNotice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Support for other languages will be added later."
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:layout_marginTop="16dp"
+        android:textAlignment="center" />
 
 </LinearLayout>

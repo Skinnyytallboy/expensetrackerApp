@@ -20,6 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SignupActivity extends AppCompatActivity {
 
     // TODO: fix "something went wrong" error
+    //  and to make the first letter of the first name and last name uppercase
+    //  and to modify the progressbar.
+
     private TextView tvCreateAcc;
     private EditText etEmail, etPassword, etUsername, etFirstName, etLastName, etAge;
     private Button btnSignup;
@@ -195,8 +198,8 @@ public class SignupActivity extends AppCompatActivity {
 
     private void handleFirestoreError(String message, Exception e) {
         Log.e("FirestoreError", message + ": " + e.getMessage());
-        if (!isLoggedIn)
-            showSnackbar("Something went wrong. Please try again.");
+        //if (!isLoggedIn)
+        //   showSnackbar("Something went wrong. Please try again.");
         progressBar.setVisibility(View.GONE);
         etEmail.setVisibility(View.VISIBLE);
         etPassword.setVisibility(View.VISIBLE);
