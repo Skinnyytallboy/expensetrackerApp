@@ -3,40 +3,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="32dp"
     android:gravity="center">
 
-    <!-- Email input -->
+    <TextView
+        android:id="@+id/tvLoginheader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Login to Expense Tracker"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="28sp" />
+
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/raleway_semibold"
         android:hint="Email"
         android:inputType="textEmailAddress"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#7F7F7F"
+        android:textColorLink="#000000" />
 
-    <!-- Password input -->
     <EditText
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/raleway_semibold"
         android:hint="Password"
         android:inputType="textPassword"
-        android:layout_marginBottom="32dp" />
+        android:textColor="#000000"
+        android:textColorHighlight="#000000"
+        android:textColorHint="#7F7F7F"
+        android:textColorLink="#000000" />
 
-    <!-- Login Button -->
     <Button
         android:id="@+id/btnLogin"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login" />
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#212121"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Login"
+        android:textColor="@color/white"
+        android:textColorLink="#FFFFFF" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
 
     <Button
         android:id="@+id/btnForgotPassword"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Forgot Password?"
-        android:layout_below="@id/btnLogin"
-        android:layout_marginTop="8dp"/>
+        android:fontFamily="@font/raleway_semibold"
+        android:textColor="#212121"
+        android:backgroundTint="#EFEFEF"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="16dp"/>
 
 </LinearLayout>
