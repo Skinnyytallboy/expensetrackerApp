@@ -37,14 +37,13 @@ public class FinancialDetailsActivity extends AppCompatActivity {
             if (cashAmount.isEmpty() || bankBalance.isEmpty() || savingsAmount.isEmpty()) {
                 Toast.makeText(FinancialDetailsActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             } else {
-                // Save data to Firestore
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 db.collection("users").document(userId)
                         .update("cashAmount", cashAmount, "bankBalance", bankBalance, "savingsAmount", savingsAmount)
                         .addOnSuccessListener(aVoid -> {
                             Toast.makeText(FinancialDetailsActivity.this, "Financial details saved successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(FinancialDetailsActivity.this, MainActivity.class));
-                            finish(); // Or start HomeActivity if needed
+                            finish();
                         })
                         .addOnFailureListener(e -> {
                             Toast.makeText(FinancialDetailsActivity.this, "Error saving details: " + e.getMessage(), Toast.LENGTH_SHORT).show();
