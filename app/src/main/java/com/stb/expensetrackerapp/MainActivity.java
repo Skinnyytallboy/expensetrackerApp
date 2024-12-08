@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(MainActivity.this, HomeActivity.class));
         } else {
-            startActivity(new Intent(MainActivity.this, OnboardingActivity.class));
+            startActivity(new Intent(MainActivity.this, startingScreen.class));
         }
         finish();
 
