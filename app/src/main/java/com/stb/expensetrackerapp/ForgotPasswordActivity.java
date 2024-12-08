@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    // TODO: implement progress bar
+
     private EditText etEmail;
     private Button btnResetPassword;
     private TextView tvInfo;
