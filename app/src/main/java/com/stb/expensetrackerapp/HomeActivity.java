@@ -1,66 +1,76 @@
 package com.stb.expensetrackerapp;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
-
-    private TextView textViewUsername, textViewFirstName, textViewLastName, textViewAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Initialize the TextViews to display the user information
-        textViewUsername = findViewById(R.id.textViewUsername);
-        textViewFirstName = findViewById(R.id.textViewFirstName);
-        textViewLastName = findViewById(R.id.textViewLastName);
-        textViewAge = findViewById(R.id.textViewAge);
+        RelativeLayout mainContent = findViewById(R.id.mainContent);
+        loadHomeContent(mainContent);
 
-        // Get current authenticated user
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (R.id.nav_home == itemId) {
+                loadHomeContent(mainContent);
+                return true;
+            } else if (R.id.nav_charts == itemId) {
+                loadChartsContent(mainContent);
+                return true;
+            } else if (R.id.nav_transactions == itemId) {
+                loadTransactionsContent(mainContent);
+                return true;
+            } else if (R.id.nav_calc == itemId) {
+                loadCalculatorContent(mainContent);
+                return true;
+            } else if (R.id.nav_settings == itemId) {
+                loadSettingsContent(mainContent);
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
 
-        if (currentUser != null) {
-            // Fetch user data from Firestore
-            String userId = currentUser.getUid();
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private void loadHomeContent(RelativeLayout container) {
+        container.removeAllViews();
+        View homeView = LayoutInflater.from(this).inflate(R.layout.content_home, container, false);
+        container.addView(homeView);
+    }
 
-            // Retrieve user data from Firestore
-            db.collection("users").document(userId)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            // Retrieve user data from the Firestore document
-                            String username = documentSnapshot.getString("username");
-                            String firstName = documentSnapshot.getString("firstName");
-                            String lastName = documentSnapshot.getString("lastName");
-                            Long age = documentSnapshot.getLong("age");
+    private void loadChartsContent(RelativeLayout container) {
+        container.removeAllViews();
+        View chartsView = LayoutInflater.from(this).inflate(R.layout.content_charts, container, false);
+        container.addView(chartsView);
+    }
 
-                            // Display user data in the TextViews
-                            if (username != null) textViewUsername.setText(username);
-                            if (firstName != null) textViewFirstName.setText(firstName);
-                            if (lastName != null) textViewLastName.setText(lastName);
-                            if (age != null) textViewAge.setText(String.valueOf(age));
-                        } else {
-                            Toast.makeText(HomeActivity.this, "User data not found.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // Handle failure while fetching data
-                        Toast.makeText(HomeActivity.this, "Error fetching user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            // If the user is not authenticated, display an error message
-            Toast.makeText(HomeActivity.this, "No user is signed in.", Toast.LENGTH_SHORT).show();
-        }
+    private void loadTransactionsContent(RelativeLayout container) {
+        container.removeAllViews();
+        View transactionsView = LayoutInflater.from(this).inflate(R.layout.content_transactions, container, false);
+        container.addView(transactionsView);
+    }
+
+    private void loadCalculatorContent(RelativeLayout container) {
+        container.removeAllViews();
+        View calcView = LayoutInflater.from(this).inflate(R.layout.content_calculator, container, false);
+        container.addView(calcView);
+    }
+
+    private void loadSettingsContent(RelativeLayout container) {
+        container.removeAllViews();
+        View settingsView = LayoutInflater.from(this).inflate(R.layout.content_settings, container, false);
+        container.addView(settingsView);
     }
 }
