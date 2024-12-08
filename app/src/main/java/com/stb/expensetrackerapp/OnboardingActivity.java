@@ -21,10 +21,8 @@ public class OnboardingActivity extends AppCompatActivity {
 
         btnLogin = findViewById(R.id.btnLogin);
         btnSignup = findViewById(R.id.btnSignup);
-        btnForgotPassword = findViewById(R.id.btnForgotPassword);
 
         btnLogin.setOnClickListener(v -> startActivity(new Intent(OnboardingActivity.this, LoginActivity.class)));
         btnSignup.setOnClickListener(v -> startActivity(new Intent(OnboardingActivity.this, SignupActivity.class)));
-        btnForgotPassword.setOnClickListener(v -> startActivity(new Intent(OnboardingActivity.this, ForgotPasswordActivity.class)));
     }
 }

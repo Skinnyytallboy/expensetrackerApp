@@ -1,44 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/onBoardingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:background="@color/white"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="32dp">
+
     <TextView
         android:id="@+id/tvAboutApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to Expense Tracker App"
-        android:textSize="24sp"
-        android:layout_marginBottom="20dp"
-        android:textAlignment="center" />
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:text="Welcome to Expense Tracker"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="28sp" />
+
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/raleway_semibold"
         android:text="Track your daily expenses and manage your budget easily!"
-        android:textSize="16sp"
         android:textAlignment="center"
-        android:layout_marginBottom="40dp" />
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp" />
+
     <Button
         android:id="@+id/btnLogin"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#212121"
+        android:fontFamily="@font/raleway_semibold"
         android:text="Login"
-        android:layout_marginBottom="16dp" />
+        app:cornerRadius="8dp"
+        android:textColor="@android:color/white" />
 
     <Button
         android:id="@+id/btnSignup"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/raleway_semibold"
+        android:backgroundTint="#212121"
         android:text="Create Account"
-        android:layout_marginBottom="16dp" />
+        app:cornerRadius="8dp"
+        android:textColor="@android:color/white" />
 
-    <Button
-        android:id="@+id/btnForgotPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Forgot Password"
-        android:layout_marginBottom="16dp" />
+
 </LinearLayout>
