@@ -4,14 +4,34 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <include
+        android:id="@+id/header"
+        layout="@layout/header"
+        android:layout_marginTop="-15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/pageNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:text="Home"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"/>
     <RelativeLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/header"
         android:layout_above="@id/bottomNavigationView"
         android:padding="16dp"
         android:background="@color/white" />
 
+    <!-- Bottom Navigation View (always at the bottom) -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
@@ -22,4 +42,5 @@
         app:itemIconTint="@color/bottom_nav_icon_color_light"
         app:itemTextColor="@color/bottom_nav_text_color_light"
         app:menu="@menu/bottom_nav_menu" />
+
 </RelativeLayout>

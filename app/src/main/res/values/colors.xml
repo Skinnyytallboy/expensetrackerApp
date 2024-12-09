@@ -5,7 +5,17 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#212121</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="bottom_nav_icon_color_light">#FFFFFFFF</color> <!-- Replace with your primary color -->
-    <color name="bottom_nav_text_color_light">#FFFFFFFF</color> <!-- Replace with your primary color -->
+    <color name="bottom_nav_icon_color_light">#FFFFFFFF</color>
+    <color name="bottom_nav_text_color_light">#FFFFFFFF</color>
+
+    <color name="primary_color">#6200EE</color>
+
+    <color name="background_color">#F5F5F5</color>
+
+    <color name="text_primary">#212121</color>
+
+    <color name="hint_color">#757575</color>
+
+    <color name="button_text">#FFFFFF</color>
 
 </resources>

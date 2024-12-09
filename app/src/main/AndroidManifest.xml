@@ -17,19 +17,10 @@
         android:theme="@style/Theme.ExpensetrackerApp"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".addTransaction"
             android:exported="false" />
         <activity
-            android:name=".CalcActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TransactionsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ChartsActivity"
+            android:name=".editBalance"
             android:exported="false" />
         <activity
             android:name=".startingScreen"

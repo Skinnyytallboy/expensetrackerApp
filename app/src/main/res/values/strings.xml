@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">expensetrackerApp</string>
+    <string-array name="transaction_categories">
+        <item>Shopping</item>
+        <item>Food</item>
+        <item>Transportation</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Entertainment</item>
+        <!-- Add more categories here -->
+    </string-array>
+
+    <string-array name="currency_options">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>PKR</item>
+        <item>INR</item>
+        <item>GBP</item>
+    </string-array>
+
 </resources>
