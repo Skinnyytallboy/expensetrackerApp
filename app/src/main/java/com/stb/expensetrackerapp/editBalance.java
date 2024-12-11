@@ -2,13 +2,16 @@ package com.stb.expensetrackerapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +29,13 @@ import java.util.UUID;
 
 public class editBalance extends AppCompatActivity {
 
+    TextView editBalanceTitle;
+    TextView editAmountTitle;
+    TextView balanceTypeTitle;
+    TextView operationTitle;
+    TextView categoryTitle;
+    TextView descriptionTitle;
+
     private EditText amountInput;
     private EditText descriptionInput;
     private Spinner balanceTypeSpinner;
@@ -41,14 +51,24 @@ public class editBalance extends AppCompatActivity {
     private double cashAmount;
     private double savingsAmount;
     private String currencyType;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_balance);
 
+        progressBar = findViewById(R.id.progressBar);
+
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+        editBalanceTitle = findViewById(R.id.titleTextView);
+        editAmountTitle = findViewById(R.id.editAmountTitle);
+        balanceTypeTitle = findViewById(R.id.balanceTypeTitle);
+        operationTitle = findViewById(R.id.operationTitle);
+        categoryTitle = findViewById(R.id.categoryTitle);
+        descriptionTitle = findViewById(R.id.descriptionTitle);
 
         amountInput = findViewById(R.id.amountInput);
         descriptionInput = findViewById(R.id.descriptionInput);
@@ -156,6 +176,9 @@ public class editBalance extends AppCompatActivity {
     }
 
     private void processOperation() {
+        progressBar.setVisibility(View.VISIBLE);
+        toggleUiVisibility(false);
+
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         if (imm != null && getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
@@ -240,10 +263,12 @@ public class editBalance extends AppCompatActivity {
                 .update(balanceData)
                 .addOnSuccessListener(aVoid -> {
                     showSnackbar("Balance updated successfully.", false);
+                    toggleUiVisibility(true);
                     recordTransaction(balanceType, amount, isAdding, category, description, previousAmount, updatedAmount);
                 })
                 .addOnFailureListener(e -> {
                     Log.e("FirestoreError", e.getMessage(), e);
+                    toggleUiVisibility(true);
                     showSnackbar("Error updating balance: " + e.getMessage(), true);
                 });
     }
@@ -277,5 +302,25 @@ public class editBalance extends AppCompatActivity {
                     Log.e("FirestoreError", e.getMessage(), e);
                     showSnackbar("Error recording transaction: " + e.getMessage(), true);
                 });
+    }
+
+    private void toggleUiVisibility(boolean show) {
+        int visibility = show ? View.VISIBLE : View.GONE;
+        editAmountTitle.setVisibility(visibility);
+        balanceTypeTitle.setVisibility(visibility);
+        operationTitle.setVisibility(visibility);
+        categoryTitle.setVisibility(visibility);
+        descriptionTitle.setVisibility(visibility);
+        amountInput.setVisibility(visibility);
+        descriptionInput.setVisibility(visibility);
+        balanceTypeSpinner.setVisibility(visibility);
+        categorySpinner.setVisibility(visibility);
+        operationGroup.setVisibility(visibility);
+        confirmButton.setVisibility(visibility);
+        cancelButton.setVisibility(visibility);
+
+        if (show) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
