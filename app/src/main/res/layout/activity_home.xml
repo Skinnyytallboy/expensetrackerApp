@@ -22,6 +22,29 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"/>
+
+    <!-- Semi-transparent overlay (Invisible by default) -->
+    <RelativeLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header"
+        android:layout_above="@id/bottomNavigationView"
+        android:background="@android:color/darker_gray"
+        android:alpha="0.5"
+        android:visibility="gone" />
+
+    <!-- ProgressBar -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:indeterminate="true" />
+
     <RelativeLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"

@@ -8,9 +8,9 @@
         android:icon="@drawable/ic_white_charts"
         android:title="Charts" />
     <item
-        android:id="@+id/nav_transactions"
-        android:icon="@drawable/ic_white_transactions"
-        android:title="Transactions" />
+        android:id="@+id/nav_cards"
+        android:icon="@drawable/ic_white_cards"
+        android:title="Cards" />
     <item
         android:id="@+id/nav_calc"
         android:icon="@drawable/ic_white_calc"

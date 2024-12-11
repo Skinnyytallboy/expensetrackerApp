@@ -9,7 +9,7 @@
         android:id="@+id/transactionsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transaction History"
+        android:text="Crads Information"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/transactionsSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View all your transactions in one place"
+        android:text="View all your cards in one place"
         android:textSize="16sp"
         android:layout_marginTop="8dp" />
 </LinearLayout>

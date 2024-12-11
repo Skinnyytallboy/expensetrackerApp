@@ -10,6 +10,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -41,10 +42,17 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private CardView balanceCard, savingsCard, bankCreditedCard;
 
+    // Progress bar
+    private RelativeLayout overlay;
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        overlay = findViewById(R.id.overlay);
+        progressBar = findViewById(R.id.progressBar);
 
         db = FirebaseFirestore.getInstance();
         pageNameTextView = findViewById(R.id.pageNameTextView);
@@ -63,9 +71,9 @@ public class HomeActivity extends AppCompatActivity {
                 loadChartsContent(mainContent);
                 pageNameTextView.setText("Charts");
                 return true;
-            } else if (R.id.nav_transactions == itemId) {
-                loadTransactionsContent(mainContent);
-                pageNameTextView.setText("Transactions");
+            } else if (R.id.nav_cards == itemId) {
+                loadCardsContent(mainContent);
+                pageNameTextView.setText("Cards Info");
                 return true;
             } else if (R.id.nav_calc == itemId) {
                 loadCalculatorContent(mainContent);
@@ -298,10 +306,10 @@ public class HomeActivity extends AppCompatActivity {
         container.addView(chartsView);
     }
 
-    private void loadTransactionsContent(RelativeLayout container) {
+    private void loadCardsContent(RelativeLayout container) {
         container.removeAllViews();
-        View transactionsView = LayoutInflater.from(this).inflate(R.layout.content_transactions, container, false);
-        container.addView(transactionsView);
+        View cardsView = LayoutInflater.from(this).inflate(R.layout.content_cards, container, false);
+        container.addView(cardsView);
     }
 
     private void loadCalculatorContent(RelativeLayout container) {
@@ -334,6 +342,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getUserData() {
+        showProgress(true);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -362,12 +371,15 @@ public class HomeActivity extends AppCompatActivity {
                             }
                         } else {
                         }
+                        showProgress(true);
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(HomeActivity.this, "Error fetching user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        showProgress(true);
                     });
         } else {
             Toast.makeText(HomeActivity.this, "No user is signed in.", Toast.LENGTH_SHORT).show();
+            showProgress(true);
         }
     }
 
@@ -393,4 +405,15 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 });
     }
+    private void showProgress(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
+            overlay.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            overlay.setVisibility(View.GONE);
+        }
+    }
+
+
 }
