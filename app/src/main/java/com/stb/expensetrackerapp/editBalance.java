@@ -2,6 +2,7 @@ package com.stb.expensetrackerapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,14 +22,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class editBalance extends AppCompatActivity {
 
     private EditText amountInput;
+    private EditText descriptionInput;
     private Spinner balanceTypeSpinner;
     private Spinner categorySpinner;
     private RadioGroup operationGroup;
     private Button confirmButton;
+    private Button cancelButton;
 
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -35,6 +40,7 @@ public class editBalance extends AppCompatActivity {
     private double bankBalance;
     private double cashAmount;
     private double savingsAmount;
+    private String currencyType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,14 @@ public class editBalance extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         amountInput = findViewById(R.id.amountInput);
+        descriptionInput = findViewById(R.id.descriptionInput);
         balanceTypeSpinner = findViewById(R.id.balanceTypeSpinner);
         categorySpinner = findViewById(R.id.categorySpinner);
         operationGroup = findViewById(R.id.operationGroup);
         confirmButton = findViewById(R.id.confirmButton);
+        cancelButton = findViewById(R.id.cancelButton);
+
+        cancelButton.setOnClickListener(v -> finish());
 
         setupBalanceTypeSpinner();
         setupCategorySpinner();
@@ -93,6 +103,18 @@ public class editBalance extends AppCompatActivity {
         categorySpinner.setAdapter(adapter);
     }
 
+
+
+    private void showSnackbar(String message, boolean isError) {
+        Snackbar snackbar = Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        if (isError) {
+            snackbar.setBackgroundTint(getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            snackbar.setBackgroundTint(getResources().getColor(android.R.color.holo_green_dark));
+        }
+        snackbar.show();
+    }
+
     private void fetchInitialBalances() {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
@@ -104,13 +126,14 @@ public class editBalance extends AppCompatActivity {
                             bankBalance = getDoubleValue(documentSnapshot, "bankBalance");
                             cashAmount = getDoubleValue(documentSnapshot, "cashAmount");
                             savingsAmount = getDoubleValue(documentSnapshot, "savingsAmount");
+                            currencyType = documentSnapshot.getString("currency");
                         } else {
-                            Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
+                            showSnackbar("User data not found, please try again later.", true);
                         }
                     })
                     .addOnFailureListener(e -> {
                         Log.e("FirestoreError", e.getMessage(), e);
-                        Toast.makeText(this, "Error fetching balances: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        showSnackbar("Error fetching balances: " + e.getMessage(), true);
                     });
         } else {
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
@@ -133,9 +156,14 @@ public class editBalance extends AppCompatActivity {
     }
 
     private void processOperation() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        if (imm != null && getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+
         String amountStr = amountInput.getText().toString();
         if (amountStr.isEmpty()) {
-            Toast.makeText(this, "Please enter an amount", Toast.LENGTH_SHORT).show();
+            showSnackbar("Please enter an amount to proceed.", true);
             return;
         }
 
@@ -145,24 +173,25 @@ public class editBalance extends AppCompatActivity {
         RadioButton selectedOperation = findViewById(selectedOperationId);
 
         if (selectedOperation == null) {
-            Toast.makeText(this, "Please select an operation", Toast.LENGTH_SHORT).show();
+            showSnackbar("Please select a valid operation (Add or Subtract).", true);
             return;
         }
 
         String operation = selectedOperation.getText().toString();
         String category = categorySpinner.getSelectedItem().toString();
+        String description = descriptionInput.getText().toString().trim();
 
         if ("Add".equals(operation)) {
-            updateBalance(balanceType, amount, true, category);
+            updateBalance(balanceType, amount, true, category, description);
         } else if ("Subtract".equals(operation)) {
-            updateBalance(balanceType, amount, false, category);
+            updateBalance(balanceType, amount, false, category, description);
         }
     }
 
-    private void updateBalance(String balanceType, double amount, boolean isAdding, String category) {
+    private void updateBalance(String balanceType, double amount, boolean isAdding, String category, String description) {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            showSnackbar("User not authenticated. Please log in again.", true);
             return;
         }
 
@@ -198,7 +227,7 @@ public class editBalance extends AppCompatActivity {
         }
 
         if (!isValidOperation) {
-            Toast.makeText(this, "Operation would result in negative balance", Toast.LENGTH_SHORT).show();
+            showSnackbar("Operation would result in negative balance. Please check again.", true);
             return;
         }
 
@@ -210,39 +239,43 @@ public class editBalance extends AppCompatActivity {
         db.collection("users").document(userId)
                 .update(balanceData)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Balance updated successfully", Toast.LENGTH_SHORT).show();
-                    recordTransaction(balanceType, amount, isAdding, category, previousAmount, updatedAmount);
+                    showSnackbar("Balance updated successfully.", false);
+                    recordTransaction(balanceType, amount, isAdding, category, description, previousAmount, updatedAmount);
                 })
                 .addOnFailureListener(e -> {
                     Log.e("FirestoreError", e.getMessage(), e);
-                    Toast.makeText(this, "Error updating balance: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    showSnackbar("Error updating balance: " + e.getMessage(), true);
                 });
     }
 
-    private void recordTransaction(String balanceType, double amount, boolean isAdding, String category, double previousAmount, double updatedAmount) {
+    private void recordTransaction(String balanceType, double amount, boolean isAdding, String category, String description, double previousAmount, double updatedAmount) {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            showSnackbar("User not authenticated. Please log in again.", true);
             return;
         }
 
         String userId = currentUser.getUid();
         Map<String, Object> transactionData = new HashMap<>();
+        transactionData.put("transactionId", UUID.randomUUID().toString());
         transactionData.put("userId", userId);
         transactionData.put("balanceType", balanceType);
         transactionData.put("amount", String.valueOf(amount));
         transactionData.put("operation", isAdding ? "Add" : "Subtract");
         transactionData.put("category", category);
+        transactionData.put("description", description.isEmpty() ? "No description provided" : description);
         transactionData.put("previousAmount", String.valueOf(previousAmount));
         transactionData.put("updatedAmount", String.valueOf(updatedAmount));
+        transactionData.put("currency", currencyType);
         transactionData.put("timestamp", String.valueOf(System.currentTimeMillis()));
+        transactionData.put("status", "Completed");
 
         db.collection("transactions")
                 .add(transactionData)
-                .addOnSuccessListener(documentReference -> Toast.makeText(this, "Transaction recorded successfully", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(documentReference -> showSnackbar("Transaction recorded successfully.", false))
                 .addOnFailureListener(e -> {
                     Log.e("FirestoreError", e.getMessage(), e);
-                    Toast.makeText(this, "Error recording transaction: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    showSnackbar("Error recording transaction: " + e.getMessage(), true);
                 });
     }
 }
