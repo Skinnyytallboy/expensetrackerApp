@@ -1,5 +1,6 @@
 package com.stb.expensetrackerapp;
 
+import android.media.tv.AdRequest;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class editBalance extends AppCompatActivity {
+public class recordTransaction extends AppCompatActivity {
 
     TextView editBalanceTitle;
     TextView editAmountTitle;

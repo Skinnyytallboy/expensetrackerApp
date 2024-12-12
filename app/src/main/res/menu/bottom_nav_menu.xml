@@ -5,12 +5,8 @@
         android:title="Home" />
     <item
         android:id="@+id/nav_charts"
-        android:icon="@drawable/ic_white_charts"
-        android:title="Charts" />
-    <item
-        android:id="@+id/nav_cards"
-        android:icon="@drawable/ic_white_cards"
-        android:title="Cards" />
+        android:icon="@drawable/ic_white_transactions"
+        android:title="Transactions" />
     <item
         android:id="@+id/nav_calc"
         android:icon="@drawable/ic_white_calc"

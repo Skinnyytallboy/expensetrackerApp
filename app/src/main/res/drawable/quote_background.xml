@@ -1,0 +1,17 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFBF3"/> <!-- Warm, neutral background color -->
+    <corners android:radius="24dp"/> <!-- Rounded corners for a modern look -->
+    <padding
+        android:left="20dp"
+        android:right="20dp"
+        android:top="16dp"
+        android:bottom="16dp" />
+    <gradient
+        android:startColor="#FFD8A8"
+        android:centerColor="#FFC068"
+        android:endColor="#FFA94D"
+        android:angle="45" />
+    <stroke
+        android:width="2dp"
+        android:color="#FF922B"/> <!-- Bold orange stroke for emphasis -->
+</shape>
